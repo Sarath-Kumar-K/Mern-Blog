@@ -20,6 +20,6 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const User = mongoose.model('User',userSchema);
+const User = mongoose.model('user',userSchema); // here user in model method is the collection name in mongodb just like table name in mysql where in mongodb it automatically apends s to the word user changing into users where u can see it in mongobd database in browser
 
 export default User;
