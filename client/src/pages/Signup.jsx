@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FcGoogle } from "react-icons/fc";
 import { Alert, Spinner } from "flowbite-react";
+import Oauth from "../components/Oauth";
 
 const Signup = () => {
   const [formaData, setFormData] = useState({});
@@ -96,12 +96,7 @@ const Signup = () => {
               <span className="pl-3">loading...</span></>
             ):'Sign Up'}
           </button>
-          <button className="flex items-center justify-center rounded-md p-1 lg:p-2 w-72 lg:w-96 lg:mb-5 mb-2 border-2 border-black font-semibold">
-            <span className="text-lg mr-2">
-              <FcGoogle size={24} />
-            </span>
-            Continue with Google
-          </button>
+          <Oauth />
           <p className="mt-5">
             Have an account?{" "}
             <Link to="/signin" className="text-blue-500 pr-4">

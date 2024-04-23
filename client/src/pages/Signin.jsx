@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FcGoogle } from "react-icons/fc";
 import { Alert, Spinner } from "flowbite-react";
 import {useDispatch, useSelector} from 'react-redux';
 import { signInStart, signInSuccess, signInFailure } from "../redux/user/userSlice.js";
+import Oauth from "../components/Oauth.jsx";
 
 const Signin = () => {
   const [formaData,setFormData] = useState({});
@@ -88,12 +88,7 @@ const Signin = () => {
               <span className="pl-3">loading...</span></>
             ):'Sign In'}
           </button>
-          <button className="flex items-center justify-center rounded-md p-1 lg:p-2 w-72 lg:w-96 lg:mb-5 mb-2 border-2 border-black font-semibold">
-            <span className="text-lg mr-2">
-              <FcGoogle size={24} />
-            </span>
-            Continue with Google
-          </button>
+          <Oauth />
           <p className="mt-5">
             Dont have an account?{" "}
             <Link to="/signup" className="text-blue-500 pr-4">
