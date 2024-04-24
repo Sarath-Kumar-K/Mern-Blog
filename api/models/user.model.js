@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema(
     },
     profilePicture:{
       type:String,
-      default:"https://thumbs.dreamstime.com/z/default-avatar-profile-icon-social-media-user-vector-default-avatar-profile-icon-social-media-user-vector-portrait-176194876.jpg?ct=jpeg",
+      default:"https://static.vecteezy.com/system/resources/thumbnails/020/911/732/small_2x/profile-icon-avatar-icon-user-icon-person-icon-free-png.png",
     },
   },
   { timestamps: true }
