@@ -15,8 +15,8 @@ const Footercomp = () => {
           </Link>
         </div>
         <div className="mt-1 grid grid-cols-2 gap-4 md:flex md:flex-row-reverse md:gap-20 md:mr-5">
-          <div className="flex flex-col text-gray-600 md:order-3">
-            <p className="pb-2 text-gray-600 md:text-md font-semibold">ABOUT</p>
+          <div className="flex flex-col md:order-3">
+            <p className="pb-2 md:text-md font-semibold">ABOUT</p>
             <Link to="/" className="my-1">
               My Projects
             </Link>
@@ -24,8 +24,8 @@ const Footercomp = () => {
               Portfolio
             </Link>
           </div>
-          <div className="flex flex-col text-gray-600 md:order-2">
-            <p className="pb-2 text-gray-600 md:text-md font-semibold">
+          <div className="flex flex-col md:order-2">
+            <p className="pb-2 md:text-md font-semibold">
               FOLLOW US
             </p>
             <Link to="/" className="my-1">
@@ -35,8 +35,8 @@ const Footercomp = () => {
               Discord
             </Link>
           </div>
-          <div className="flex flex-col text-gray-600 md:order-1">
-            <p className="pb-2 text-gray-600 md:text-md font-semibold">LEGAL</p>
+          <div className="flex flex-col md:order-1">
+            <p className="pb-2 md:text-md font-semibold">LEGAL</p>
             <Link to="/" className="my-1">
               Privacy Policy
             </Link>
