@@ -12,7 +12,7 @@ const Profile = () => {
   }
   return (
     <div className='md:mx-5 rounded-full' onClick={handleClick}>
-      <img className='w-9 mt-0 rounded-full h-fit cursor-pointer' src={currentUser.profilePicture} alt="user-profilePicture" />
+      <img className='w-9 mt-0 rounded-full h-fit cursor-pointer' src={currentUser.profilePicture} alt="😎" />
       {toggle && (
         <div className='max-w-36 md:max-w-48 absolute z-10 shadow-black border-2 border-gray-300 top-14 right-10 rounded-md bg-white'>
         <p className='px-2 truncate text-sm'>{username}</p>
