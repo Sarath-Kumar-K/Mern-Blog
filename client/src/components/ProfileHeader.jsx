@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-const Profile = () => {
+const ProfileHeader = () => {
   const {currentUser} = useSelector(state => state.user);
   const username = '@'+currentUser.username;
   const userEmail = currentUser.email;
@@ -27,4 +27,4 @@ const Profile = () => {
   )
 }
 
-export default Profile
+export default ProfileHeader
