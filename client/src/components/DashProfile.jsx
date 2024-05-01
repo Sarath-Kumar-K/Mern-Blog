@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { Alert, Button, TextInput } from "flowbite-react";
+import { Alert, Button, TextInput} from "flowbite-react";
+import {Link} from 'react-router-dom';
 import {
   getDownloadURL,
   getStorage,
@@ -23,7 +24,7 @@ import {
 import {HiOutlineExclamationCircle} from 'react-icons/hi';
 
 const DashProfile = () => {
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser, error, loading } = useSelector((state) => state.user);
   const [imageFile, setImageFile] = useState(null);
   const [imageFileURL, setImageFileURL] = useState(null);
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
@@ -229,9 +230,14 @@ const DashProfile = () => {
           placeholder="password"
           onChange={handleFormData}
         />
-        <Button type="submit" gradientDuoTone="purpleToBlue" outline>
-          Update
+        <Button type="submit" gradientDuoTone="purpleToBlue" outline disabled={loading || imageFileUploading}>
+          {loading? 'Loading...':'Update'}
         </Button>
+        {currentUser.isAdmin && (
+          <Link to={'/create-post'}>
+            <Button type="button" gradientDuoTone='purpleToPink' className="w-full">Create a post</Button>
+          </Link>
+        )}
       </form>
       <div className="flex justify-between mt-5 text-red-500">
         <span className="cursor-pointer" onClick={() => showDeleteModal(true)}>
