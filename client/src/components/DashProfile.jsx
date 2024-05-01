@@ -15,7 +15,11 @@ import {
   updateStart,
   updateSuccess,
   updateFailure,
+  deleteUserStart,
+  deleteUserSuccess,
+  deleteUserFailure
 } from "../redux/user/userSlice.js";
+import {HiOutlineExclamationCircle} from 'react-icons/hi';
 
 const DashProfile = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -26,6 +30,8 @@ const DashProfile = () => {
   const [imageFileUploading, setImageFileUploading] = useState(false);
   const [updateUserSuccess, setUpdateUserSuccess] = useState(false);
   const [updateUserError, setUpdateUserError] = useState(null);
+  // delete modal
+  const [deleteModal, showDeleteModal] = useState(false);
   const [formData, setFormData] = useState({});
   console.log(imageFileUploadProgress, imageFileUploadError);
   const filePickerRef = useRef();
@@ -88,11 +94,11 @@ const DashProfile = () => {
     setUpdateUserError(null);
     setUpdateUserSuccess(false);
     if (Object.keys(formData).length === 0) {
-      setUpdateUserError(`No changes made in profile`)
+      setUpdateUserError(`No changes made in profile`);
       return;
     }
-    if(imageFileUploading){
-      setUpdateUserError(`please wait until image is uploaded`)
+    if (imageFileUploading) {
+      setUpdateUserError(`please wait until image is uploaded`);
     }
     try {
       dispatch(updateStart());
@@ -120,6 +126,23 @@ const DashProfile = () => {
     }
   };
 
+  const handleDeleteUser =async () => {
+    showDeleteModal(false);
+    try{
+      dispatch(deleteUserStart());
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method : 'DELETE',
+      });
+      const data = await res.json();
+      if(!res.ok){
+        dispatch(deleteUserFailure(data.message));
+      }else{
+        dispatch(deleteUserSuccess(data));
+      }
+    }catch(error){
+      dispatch(deleteUserFailure(error.message));
+    }
+  }
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
       <h1 className="my-7 text-3xl font-semibold text-center">Profile</h1>
@@ -192,17 +215,35 @@ const DashProfile = () => {
         <Button type="submit" gradientDuoTone="purpleToBlue" outline>
           Update
         </Button>
-        
       </form>
       <div className="flex justify-between mt-5 text-red-500">
-          <span className="cursor-pointer">Delete Account</span>
-          <span className="cursor-pointer">Sign Out</span>
+        <span className="cursor-pointer" onClick={() => showDeleteModal(true)}>
+          Delete Account
+        </span>
+        <span className="cursor-pointer">Sign Out</span>
       </div>
       {updateUserSuccess && (
-        <Alert color='success' className="mt-5">{`Profile Updated Successfully!`}</Alert>
+        <Alert
+          color="success"
+          className="mt-5"
+        >{`Profile Updated Successfully!`}</Alert>
       )}
       {updateUserError && (
-        <Alert color='failure' className="mt-5">{updateUserError}</Alert>
+        <Alert color="failure" className="mt-5">
+          {updateUserError}
+        </Alert>
+      )}
+      {deleteModal && (
+        <div className="absolute top-0 left-0 z-10 h-full w-full backdrop-brightness-50">
+          <div className="absolute md:top-[30vh] md:left-[40vw]  m-5 z-20 rounded-md border-2 bg-white">
+            <HiOutlineExclamationCircle className='my-5 mx-auto h-14 w-14 text-gray-400 dark:text-gray-200'/>
+            <h3 className="md:px-8 text-lg text-center mb-5 dark:text-gray-400 text-gray-500">Are you sure you want to delete your account</h3>
+            <div className="flex justify-center gap-5 mb-5">
+              <Button color='failure' onClick={handleDeleteUser}>Yes, I'm sure</Button>
+              <Button color='gray' onClick={()=>showDeleteModal(false)}>No, cancel</Button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
