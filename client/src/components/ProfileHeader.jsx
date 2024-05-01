@@ -18,7 +18,7 @@ const ProfileHeader = () => {
         <p className='px-2 truncate text-sm'>{username}</p>
         <p className='px-2 truncate text-sm'>{userEmail}</p>
         <ol className=''>
-          <li className='pb-1 mt-2 md:mt-4 px-2 md:px-5 hover:bg-gray-200'><Link to='/dashboard'>Profile</Link></li>
+          <li className='pb-1 mt-2 md:mt-4 px-2 md:px-5 hover:bg-gray-200'><Link to='/dashboard?tab=profile'>Profile</Link></li>
           <li className='py-1 px-2 md:px-5 hover:bg-gray-200'><Link to='#'>Signout</Link></li>
         </ol>
       </div>
