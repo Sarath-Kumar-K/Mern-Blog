@@ -1,15 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { FaUser, FaArrowRightLong } from "react-icons/fa6";
 import { Link, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { signoutSuccess } from "../redux/user/userSlice";
 
 const DashSidebar = () => {
   const [tab, setTab] = useState("");
   const location = useLocation();
+  const dispatch = useDispatch();
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const tabFromUrl = urlParams.get("tab");
     setTab(tabFromUrl);
   }, [location.search]);
+
+  const handleSignout = async()=>{
+    try{
+      const res = await fetch('/api/user/signout',{
+        method:'POST'
+      });
+      const data = await res.json();
+      if(!res.ok){
+        console.log(data.message);
+      }else{
+        dispatch(signoutSuccess()); 
+      }
+    }catch(error){
+      console.log(error);
+    }
+  }
   return (
     <div className="md:mt-12 flex flex-col gap-4">
       <Link to="/dashboard?tab=profile">
@@ -26,7 +45,7 @@ const DashSidebar = () => {
       </Link>
       <div className="mx-4 md:w-48 w-full py-1 rounded-md hover:bg-gray-100 cursor-pointer dark:hover:bg-slate-700">
         <FaArrowRightLong className="inline ml-4" />
-        <p className="ml-4 inline">Sign Out</p>
+        <p className="ml-4 inline" onClick={handleSignout}>Sign Out</p>
       </div>
     </div>
   );

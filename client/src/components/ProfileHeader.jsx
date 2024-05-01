@@ -1,14 +1,32 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { signoutSuccess } from '../redux/user/userSlice';
 
 const ProfileHeader = () => {
   const {currentUser} = useSelector(state => state.user);
   const username = '@'+currentUser.username;
   const userEmail = currentUser.email;
   const [toggle,settoggle] = useState(false);
+  const dispatch = useDispatch();
   const handleClick = () =>{
     settoggle(!toggle);
+  }
+
+  const handleSignout = async()=>{
+    try{
+      const res = await fetch('/api/user/signout',{
+        method:'POST'
+      });
+      const data = await res.json();
+      if(!res.ok){
+        console.log(data.message);
+      }else{
+        dispatch(signoutSuccess()); 
+      }
+    }catch(error){
+      console.log(error);
+    }
   }
   return (
     <div className='md:mx-5 rounded-full' onClick={handleClick}>
@@ -19,7 +37,7 @@ const ProfileHeader = () => {
         <p className='px-2 truncate text-sm'>{userEmail}</p>
         <ol className=''>
           <li className='pb-1 mt-2 md:mt-4 px-2 md:px-5 hover:bg-gray-200'><Link to='/dashboard?tab=profile'>Profile</Link></li>
-          <li className='py-1 px-2 md:px-5 hover:bg-gray-200'><Link to='#'>Signout</Link></li>
+          <li className='py-1 px-2 md:px-5 hover:bg-gray-200' onClick={handleSignout}><Link to='#'>Signout</Link></li>
         </ol>
       </div>
       )}

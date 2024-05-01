@@ -16,7 +16,7 @@ const Dashboard = () => {
   return (
     <div className='flex flex-col md:flex-row min-h-screen'>
       {/* {sidebar} */}
-      <div className='border-r-2 border-r-gray-200'>
+      <div className=' bg-gray-50 dark:bg-slate-800'>
         <DashSidebar />
       </div>
       {/* {profile} */}
