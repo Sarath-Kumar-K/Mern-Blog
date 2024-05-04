@@ -35,7 +35,6 @@ const DashProfile = () => {
   // delete modal
   const [deleteModal, showDeleteModal] = useState(false);
   const [formData, setFormData] = useState({});
-  console.log(imageFileUploadProgress, imageFileUploadError);
   const filePickerRef = useRef();
   const dispatch = useDispatch();
 
@@ -89,7 +88,6 @@ const DashProfile = () => {
   const handleFormData = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
-  console.log(formData);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -112,7 +110,6 @@ const DashProfile = () => {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      console.log(data);
       if (!res.ok) {
         dispatch(updateFailure(data.message));
         setUpdateUserSuccess(false);

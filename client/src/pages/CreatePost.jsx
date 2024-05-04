@@ -11,7 +11,7 @@ const CreatePost = () => {
         <div className="flex flex-col gap-4 sm:flex-row">
           <TextInput className="w-full flex-1" id="title" placeholder="Title" required />
           <Select>
-            <option value="uncategorised">select a Category</option>
+            <option value="uncategorised">Select a Category</option>
             <option value="javascript">Javascript</option>
             <option value="reactjs">React.js</option>
             <option value="nextjs">Next.js</option>
