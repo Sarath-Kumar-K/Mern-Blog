@@ -5,7 +5,7 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    //As we are using vite process.env not works so imort.meta.env is used
+    //As we are using vite process.env not works so import.meta.env is used
   apiKey: import.meta.env.VITE_API_KEY,
   authDomain: "mern-blog-31132.firebaseapp.com",
   projectId: "mern-blog-31132",

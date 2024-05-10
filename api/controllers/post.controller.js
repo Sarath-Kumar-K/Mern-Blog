@@ -7,6 +7,7 @@ export const createPost = async (req,res,next) => {
     if(!req.user.isAdmin){
         return next(errorHandler(403,'You are not allowed to create post'));
     }
+    console.log(req.body.title + ' content '+ req.body.content);
     if(!req.body.title || !req.body.content){
         return next(errorHandler(400,'Please provide all required fields'));
     }
