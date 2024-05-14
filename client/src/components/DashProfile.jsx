@@ -254,7 +254,7 @@ const DashProfile = () => {
         </Alert>
       )}
       {deleteModal && (
-        <div className="absolute top-0 left-0 z-10 h-full w-full backdrop-brightness-50">
+        <div onClick={()=> showDeleteModal(false)} className="fixed inset-0 z-10 backdrop-brightness-50">
           <div className="absolute md:top-[30vh] md:left-[40vw]  m-5 z-20 rounded-md border-2 bg-white">
             <HiOutlineExclamationCircle className='my-5 mx-auto h-14 w-14 text-gray-400 dark:text-gray-200'/>
             <h3 className="md:px-8 text-lg text-center mb-5 dark:text-gray-400 text-gray-500">Are you sure you want to delete your account</h3>
