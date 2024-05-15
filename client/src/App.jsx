@@ -12,6 +12,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import OnlyAdminPrivateRoute from "./components/OnlyAminPrivateRoute";
 import CreatePost from "./pages/CreatePost";
 import UpdatePost from './pages/UpdatePost';
+import PostPage from "./pages/PostPage";
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
           <Route path="/create-post" element={<CreatePost />} />
           <Route path="/update-post/:postId" element={<UpdatePost />} />
         </Route>
+        <Route path="/post/:postSlug" element={<PostPage />}/>
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={<Signin />} />
       </Routes>
