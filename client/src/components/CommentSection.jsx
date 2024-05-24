@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Alert, Button, Textarea } from "flowbite-react";
 import Comment from "./Comment";
 
@@ -9,7 +9,9 @@ const CommentSection = ({ postId }) => {
   const [comment, setComment] = useState("");
   const [commentError, setCommentError] = useState(null);
   const [comments, setComments] = useState([]);
-console.log(comments);
+  const [fetching,setFetching] = useState(false);
+  const navigate = useNavigate();
+  // console.log(comments);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -27,11 +29,11 @@ console.log(comments);
       });
 
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
       if (res.ok) {
         setCommentError(null);
         setComment("");
-        setComments([data,...comments]);
+        setComments([data, ...comments]);
       } else {
         setCommentError(data.message);
       }
@@ -49,14 +51,55 @@ console.log(comments);
         if (res.ok) {
           setComments(data);
         } else {
+          setComments([]);
           console.log(data);
         }
       } catch (error) {
+        setComments([]);
         console.log(error.message);
       }
     };
     getComments();
   }, [postId]);
+
+  const handleLike = async (commentId) => {
+    try {
+      if (!currentUser) {
+        navigate("/signin");
+        return;
+      }
+      setFetching(true);
+      const res = await fetch(`/api/comment/likecomment/${commentId}`, {
+        method: "PUT",
+      });
+      if (res.ok) {
+        const data = await res.json();
+        //console.log(data);
+        setComments((prevComments) =>
+          prevComments.map((comment) =>
+            comment._id === commentId
+              ? {
+                  ...comment,
+                  likes: data.likes,
+                  numberOfLikes: data.likes.length,
+                }
+              : comment
+          )
+        );
+      }
+    } catch (error) {
+      console.log(error.message);
+    } finally{
+      setFetching(false);
+    }
+  };
+
+  const handleEdit = async (comment, editedContent) => {
+    setComments(
+      comments.map((c) => 
+      c._id === comment._id ? {...c, content: editedContent } : c)
+    )
+  }
 
   return (
     <div className="max-w-2xl mx-auto w-full p-3">
@@ -121,9 +164,11 @@ console.log(comments);
               <p>{comments.length}</p>
             </div>
           </div>
-          {comments.map( (comment) => (
-            <Comment key={comment._id} comment={comment} />
-          ))}
+          {!fetching ? comments.map((comment) => (
+            <Comment key={comment && comment._id}  comment={comment && comment} onLike={handleLike} onEdit={handleEdit} />
+          )) : (
+            <Alert className="" color='success'>{`fetching the comments...`}</Alert>
+          )}
         </div>
       )}
     </div>
