@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { Alert, Button, TextInput} from "flowbite-react";
-import {Link} from 'react-router-dom';
+import { Alert, Button, TextInput } from "flowbite-react";
+import { Link } from "react-router-dom";
 import {
   getDownloadURL,
   getStorage,
@@ -19,9 +19,10 @@ import {
   deleteUserStart,
   deleteUserSuccess,
   deleteUserFailure,
-  signoutSuccess
+  signoutSuccess,
 } from "../redux/user/userSlice.js";
-import {HiOutlineExclamationCircle} from 'react-icons/hi';
+import { HiOutlineExclamationCircle } from "react-icons/hi";
+import DeleteModal from "./DeleteModal.jsx";
 
 const DashProfile = () => {
   const { currentUser, error, loading } = useSelector((state) => state.user);
@@ -125,39 +126,39 @@ const DashProfile = () => {
     }
   };
 
-  const handleDeleteUser =async () => {
+  const handleDeleteUser = async () => {
     showDeleteModal(false);
-    try{
+    try {
       dispatch(deleteUserStart());
       const res = await fetch(`/api/user/delete/${currentUser._id}`, {
-        method : 'DELETE',
+        method: "DELETE",
       });
       const data = await res.json();
-      if(!res.ok){
+      if (!res.ok) {
         dispatch(deleteUserFailure(data.message));
-      }else{
+      } else {
         dispatch(deleteUserSuccess(data));
       }
-    }catch(error){
+    } catch (error) {
       dispatch(deleteUserFailure(error.message));
     }
-  }
+  };
 
-  const handleSignout = async()=>{
-    try{
-      const res = await fetch('/api/user/signout',{
-        method:'POST'
+  const handleSignout = async () => {
+    try {
+      const res = await fetch("/api/user/signout", {
+        method: "POST",
       });
       const data = await res.json();
-      if(!res.ok){
+      if (!res.ok) {
         console.log(data.message);
-      }else{
-        dispatch(signoutSuccess()); 
+      } else {
+        dispatch(signoutSuccess());
       }
-    }catch(error){
+    } catch (error) {
       console.log(error);
     }
-  }
+  };
   return (
     <div className="max-w-lg mx-auto p-3 w-full">
       <h1 className="my-7 text-3xl font-semibold text-center">Profile</h1>
@@ -227,12 +228,23 @@ const DashProfile = () => {
           placeholder="password"
           onChange={handleFormData}
         />
-        <Button type="submit" gradientDuoTone="purpleToBlue" outline disabled={loading || imageFileUploading}>
-          {loading? 'Loading...':'Update'}
+        <Button
+          type="submit"
+          gradientDuoTone="purpleToBlue"
+          outline
+          disabled={loading || imageFileUploading}
+        >
+          {loading ? "Loading..." : "Update"}
         </Button>
         {currentUser.isAdmin && (
-          <Link to={'/create-post'}>
-            <Button type="button" gradientDuoTone='purpleToPink' className="w-full">Create a post</Button>
+          <Link to={"/create-post"}>
+            <Button
+              type="button"
+              gradientDuoTone="purpleToPink"
+              className="w-full"
+            >
+              Create a post
+            </Button>
           </Link>
         )}
       </form>
@@ -240,7 +252,9 @@ const DashProfile = () => {
         <span className="cursor-pointer" onClick={() => showDeleteModal(true)}>
           Delete account
         </span>
-        <span className="cursor-pointer" onClick={handleSignout}>Sign out</span>
+        <span className="cursor-pointer" onClick={handleSignout}>
+          Sign out
+        </span>
       </div>
       {updateUserSuccess && (
         <Alert
@@ -254,16 +268,11 @@ const DashProfile = () => {
         </Alert>
       )}
       {deleteModal && (
-        <div onClick={()=> showDeleteModal(false)} className="fixed inset-0 z-10 backdrop-brightness-50">
-          <div className="absolute md:top-[30vh] md:left-[40vw]  m-5 z-20 rounded-md border-2 bg-white">
-            <HiOutlineExclamationCircle className='my-5 mx-auto h-14 w-14 text-gray-400 dark:text-gray-200'/>
-            <h3 className="md:px-8 text-lg text-center mb-5 dark:text-gray-400 text-gray-500">Are you sure you want to delete your account</h3>
-            <div className="flex justify-center gap-5 mb-5">
-              <Button color='failure' onClick={handleDeleteUser}>Yes, I'm sure</Button>
-              <Button color='gray' onClick={()=>showDeleteModal(false)}>No, cancel</Button>
-            </div>
-          </div>
-        </div>
+        <DeleteModal
+          onCancel={showDeleteModal}
+          onDelete={handleDeleteUser}
+          term="user"
+        />
       )}
     </div>
   );

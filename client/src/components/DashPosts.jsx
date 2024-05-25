@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Table, Button } from "flowbite-react";
+import { Table } from "flowbite-react";
 import { Link } from "react-router-dom";
-import { HiOutlineExclamationCircle } from "react-icons/hi";
+import DeleteModal from "./DeleteModal";
 
 const DashPosts = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -60,9 +60,7 @@ const DashPosts = () => {
       if (!res.ok) {
         console.log(data.message);
       } else {
-        setUserPosts((prev) => {
-          prev.filter((post) => post._id !== postIdToDelete);
-        });
+        setUserPosts((prev) => prev.filter((post) => post._id !== postIdToDelete));
       }
     } catch (error) {
       dispatch(deleteUserFailure(error.message));
@@ -143,22 +141,7 @@ const DashPosts = () => {
         <p className="text-center text-red-500 text-xl"> You have no posts yet! </p>
       )}
       {deleteModal && (
-        <div onClick={()=> showDeleteModal(false)} className="fixed inset-0 z-10 backdrop-brightness-50 overflow-hidden">
-          <div className="absolute md:top-[30vh] md:left-[40vw]  m-5 z-20 rounded-md border-2 bg-white">
-            <HiOutlineExclamationCircle className="my-5 mx-auto h-14 w-14 text-gray-400 dark:text-gray-200" />
-            <h3 className="md:px-8 text-lg text-center mb-5 dark:text-gray-400 text-gray-500">
-              Are you sure you want to delete this post
-            </h3>
-            <div className="flex justify-center gap-5 mb-5">
-              <Button color="failure" onClick={handleDeletePost}>
-                Yes, I'm sure
-              </Button>
-              <Button color="gray" onClick={() => showDeleteModal(false)}>
-                No, cancel
-              </Button>
-            </div>
-          </div>
-        </div>
+        <DeleteModal onCancel={showDeleteModal} onDelete={handleDeletePost} term='post'/>
       )}
     </div>
   );

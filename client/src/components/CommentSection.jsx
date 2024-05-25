@@ -3,13 +3,16 @@ import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { Alert, Button, Textarea } from "flowbite-react";
 import Comment from "./Comment";
+import DeleteModal from "./DeleteModal";
 
 const CommentSection = ({ postId }) => {
   const { currentUser } = useSelector((state) => state.user);
   const [comment, setComment] = useState("");
   const [commentError, setCommentError] = useState(null);
   const [comments, setComments] = useState([]);
-  const [fetching,setFetching] = useState(false);
+  const [fetching, setFetching] = useState(false);
+  const [deleteModal, showDeleteModal] = useState(false);
+  const [commentToDelete, setCommentToDelete] = useState(null);
   const navigate = useNavigate();
   // console.log(comments);
   const handleSubmit = async (e) => {
@@ -89,17 +92,38 @@ const CommentSection = ({ postId }) => {
       }
     } catch (error) {
       console.log(error.message);
-    } finally{
+    } finally {
       setFetching(false);
     }
   };
 
   const handleEdit = async (comment, editedContent) => {
     setComments(
-      comments.map((c) => 
-      c._id === comment._id ? {...c, content: editedContent } : c)
-    )
-  }
+      comments.map((c) =>
+        c._id === comment._id ? { ...c, content: editedContent } : c
+      )
+    );
+  };
+
+  const handleDelete = async (commentId) => {
+    try {
+      if (!currentUser) {
+        navigate("/signin");
+        return;
+      }
+      console.log("called handleDelete function");
+      console.log(commentId);
+      const res = await fetch(`/api/comment/deletecomment/${commentId}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setComments(comments.filter((comment) => comment._id !== commentId));
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <div className="max-w-2xl mx-auto w-full p-3">
@@ -164,12 +188,33 @@ const CommentSection = ({ postId }) => {
               <p>{comments.length}</p>
             </div>
           </div>
-          {!fetching ? comments.map((comment) => (
-            <Comment key={comment && comment._id}  comment={comment && comment} onLike={handleLike} onEdit={handleEdit} />
-          )) : (
-            <Alert className="" color='success'>{`fetching the comments...`}</Alert>
+          {!fetching ? (
+            comments.map((comment) => (
+              <Comment
+                key={comment && comment._id}
+                comment={comment && comment}
+                onLike={handleLike}
+                onEdit={handleEdit}
+                onDelete={(commentId) => {
+                  showDeleteModal(true);
+                  setCommentToDelete(commentId);
+                }}
+              />
+            ))
+          ) : (
+            <Alert
+              className=""
+              color="success"
+            >{`fetching the comments...`}</Alert>
           )}
         </div>
+      )}
+      {deleteModal && (
+        <DeleteModal
+          onCancel={showDeleteModal}
+          onDelete={() => handleDelete(commentToDelete)}
+          term="comment"
+        />
       )}
     </div>
   );
