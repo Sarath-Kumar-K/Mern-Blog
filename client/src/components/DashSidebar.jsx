@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaUser, FaArrowRightLong } from "react-icons/fa6";
-import { HiDocumentText } from "react-icons/hi";
+import { HiAnnotation, HiDocumentText } from "react-icons/hi";
 import { HiUserGroup } from "react-icons/hi2";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -53,6 +53,15 @@ const DashSidebar = () => {
         <div className="mx-4 md:w-48 w-full py-1 rounded-md hover:bg-gray-200 cursor-pointer dark:hover:bg-slate-700">
           <HiDocumentText  size={25} className="inline ml-4" />
           <p className="ml-4 inline text-lg">Posts</p>
+        </div>
+        </Link>
+      )}
+      {/* comments section */}
+      {currentUser.isAdmin && (
+        <Link to='/dashboard?tab=comments'>
+        <div className="mx-4 md:w-48 w-full py-1 rounded-md hover:bg-gray-200 cursor-pointer dark:hover:bg-slate-700">
+          <HiAnnotation  size={25} className="inline ml-4" />
+          <p className="ml-4 inline text-lg">Comments</p>
         </div>
         </Link>
       )}
