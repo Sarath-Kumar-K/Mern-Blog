@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaUser, FaArrowRightLong } from "react-icons/fa6";
-import { HiAnnotation, HiDocumentText } from "react-icons/hi";
+import { HiAnnotation, HiChartPie, HiDocumentText } from "react-icons/hi";
 import { HiUserGroup } from "react-icons/hi2";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -35,6 +35,15 @@ const DashSidebar = () => {
   }
   return (
     <div className="md:mt-12 flex flex-col gap-8">
+      {/* Overview section */}
+      {currentUser.isAdmin && (
+        <Link to='/dashboard?tab=overview'>
+        <div className="mx-4 md:w-48 w-full py-1 rounded-md hover:bg-gray-200 cursor-pointer dark:hover:bg-slate-700">
+          <HiChartPie  size={25} className="inline ml-4" />
+          <p className="ml-4 inline text-lg">Dashboard</p>
+        </div>
+        </Link>
+      )}
       {/* profile section */}
       <Link to="/dashboard?tab=profile">
         <div

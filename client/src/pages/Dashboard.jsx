@@ -1,50 +1,43 @@
-import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom';
-import DashSidebar from '../components/DashSidebar';
-import DashProfile from '../components/DashProfile';
-import DashPosts from '../components/DashPosts';
-import DashUsers from '../components/DashUsers';
-import DashComments from '../components/DashComments';
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import DashSidebar from "../components/DashSidebar";
+import DashProfile from "../components/DashProfile";
+import DashPosts from "../components/DashPosts";
+import DashUsers from "../components/DashUsers";
+import DashComments from "../components/DashComments";
+import DashboardComponent from "../components/DashboardComponent";
 
 const Dashboard = () => {
-  const [tab,setTab] = useState('');
+  const [tab, setTab] = useState("");
   const location = useLocation();
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
-    const tabFromUrl = urlParams.get('tab');
+    const tabFromUrl = urlParams.get("tab");
     setTab(tabFromUrl);
-  
-  },[location.search])
+  }, [location.search]);
   return (
-    <div className='flex flex-col md:flex-row min-h-screen'>
-
+    <div className="flex flex-col md:flex-row min-h-screen">
       {/* {sidebar} */}
-      <div className=' bg-gray-50 dark:bg-slate-800'>
+      <div className=" bg-gray-50 dark:bg-slate-800">
         <DashSidebar />
       </div>
 
+      {/* {overview} */}
+      {(tab === "overview" || !tab) && <DashboardComponent />}
+
       {/* {profile} */}
-      {tab === 'profile' && (
-        <DashProfile />
-      )}
+      {tab === "profile" && <DashProfile />}
 
       {/* {users} */}
-      {tab === 'users' && (
-        <DashUsers />
-      )}
+      {tab === "users" && <DashUsers />}
 
       {/* {posts} */}
-      {tab === 'posts' && (
-        <DashPosts />
-      )}
+      {tab === "posts" && <DashPosts />}
 
       {/* {Comments} */}
-      {tab === 'comments' && (
-        <DashComments />
-      )}
-      
+      {tab === "comments" && <DashComments />}
     </div>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;
