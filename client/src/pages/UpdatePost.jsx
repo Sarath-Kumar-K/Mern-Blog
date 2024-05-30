@@ -96,7 +96,7 @@ const UpdatePost = () => {
 
     try {
       setPublishError(null);
-      const res = await fetch(`/api/post/updatepost/${formData._id}/${currentUser._id}`, {
+      const res = await fetch(`/api/post/updatepost/${postId}/${currentUser._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -129,7 +129,7 @@ const UpdatePost = () => {
             onChange={(e) =>
               setFormData({ ...formData, title: e.target.value })
             }
-            defaultValue={formData.title}
+            value={formData.title}
           />
           <Select
             onChange={(e) =>
@@ -141,6 +141,12 @@ const UpdatePost = () => {
             <option value="javascript">Javascript</option>
             <option value="reactjs">React.js</option>
             <option value="nextjs">Next.js</option>
+            <option value="python">Python</option>
+            <option value="java">Java</option>
+            <option value="databases">Databases</option>
+            <option value="web development">Web Development</option>
+            <option value="machine learning">Machine Learning</option>
+            <option value="programming">Programming</option>
           </Select>
         </div>
         <div className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3">
