@@ -95,11 +95,11 @@ const Signin = () => {
               Sign Up
             </Link>
           </p>
-          {errorMessage && (
+          {/* {errorMessage && (
             <Alert className="mt-5 w-72 lg:w-96" color="failure">
               {errorMessage}
             </Alert>
-          )}
+          )} */}
         </form>
       </div>
     </div>
